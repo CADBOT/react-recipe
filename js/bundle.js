@@ -19826,11 +19826,21 @@ var NavBar = React.createClass({displayName: "NavBar",
   }
 })
 
+var Recipie = React.createClass({displayName: "Recipie",
+  render: function() {
+    return (
+      React.createElement("div", null, 
+        React.createElement("h4", null, " ", this.props.name, " "), 
+        React.createElement("p", null, " ", this.props.directions, " ")
+      )
+    )
+  }
+})
 
 var RecipieList = React.createClass({displayName: "RecipieList",
   render: function() {
     var recipies = this.props.recipies.map(function(recipie) {
-      return React.createElement("p", null, " ",  recipie.name, " ")
+      return React.createElement(Recipie, {name: recipie.name, directions: recipie.directions})
     })
     return (
       React.createElement("section", null, 

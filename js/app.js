@@ -15,11 +15,21 @@ var NavBar = React.createClass({
   }
 })
 
+var Recipie = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <h4> {this.props.name} </h4>
+        <p> {this.props.directions} </p>
+      </div>
+    )
+  }
+})
 
 var RecipieList = React.createClass({
   render: function() {
     var recipies = this.props.recipies.map(function(recipie) {
-      return <p> { recipie.name } </p>
+      return <Recipie name={recipie.name} directions={recipie.directions} />
     })
     return (
       <section> 
