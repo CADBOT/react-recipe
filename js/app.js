@@ -15,7 +15,7 @@ var NavBar = React.createClass({
   }
 })
 
-var Recipie = React.createClass({
+var Recipe = React.createClass({
   render: function() {
     return (
       <div>
@@ -26,35 +26,76 @@ var Recipie = React.createClass({
   }
 })
 
-var RecipieList = React.createClass({
+var RecipeList = React.createClass({
   render: function() {
-    var recipies = this.props.recipies.map(function(recipie) {
-      return <Recipie name={recipie.name} directions={recipie.directions} />
+    var recipes = this.props.recipes.map(function(recipe) {
+      return <Recipe name={recipe.name} directions={recipe.directions} />
     })
     return (
       <section> 
-        <h2>My recipies</h2>
-        { recipies } 
+        <h2>My Recipes</h2>
+        { recipes } 
       </section>
     )
   }
 })
 
-var RecipiesContainer = React.createClass({
+var NewRecipe = React.createClass({
   getInitialState: function() {
     return {
-      recipies: [
+      newName: '',
+      newDescription: ''
+    }
+  },
+
+  propTypes: {
+    addRecipe: React.PropTypes.func.isRequired
+  },
+
+  updateNewRecipe: function(e) {
+    this.setState({
+      newName: e.target.value
+    }) 
+  },
+
+  handleAddNew: function() {
+    this.props.addRecipe({name: this.state.newName, description: this.state.newDescription})
+  },
+
+  render: function() {
+    return (
+      <section>
+        <h4>Add a new recipe here </h4> 
+        <p>what you are typing {this.state.newName}</p>
+        <input type='text' value={this.state.newName} onChange={this.updateNewRecipe} />
+        <button onClick={this.handleAddNew}> Add Recipe </button>
+      </section>
+    )
+  }
+})
+
+var RecipesContainer = React.createClass({
+  getInitialState: function() {
+    return {
+      recipes: [
         { name: 'orange chicken', directions: 'Heat it up!' },
         { name: 'pasta', directions: 'put sauce on it' }
       ]
     }
   },
 
+  addRecipe: function(recipe) {
+    this.setState({
+      recipes: this.state.recipes.concat([recipe])
+    })
+  },
+
   render: function() {
     return (
       <main>
         <h1>My cooking rules</h1>
-        <RecipieList recipies={this.state.recipies} />
+        <RecipeList recipes={this.state.recipes} />
+        <NewRecipe addRecipe={this.addRecipe} />
       </main>
     )
   }
@@ -65,7 +106,7 @@ var App = React.createClass({
     return (
       <div>
         <NavBar />
-        <RecipiesContainer />
+        <RecipesContainer />
       </div>
     )
   }
